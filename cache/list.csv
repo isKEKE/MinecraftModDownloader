@@ -1,2 +1,4 @@
-url,source,mod_name,running_environment,dependencies,version
-https://www.mcmod.cn/class/8686.html,"{'CurseForge': 'https://link.mcmod.cn/target/aHR0cHM6Ly93d3cuY3Vyc2Vmb3JnZS5jb20vbWluZWNyYWZ0L21jLW1vZHMveWVzLXN0ZXZlLW1vZGVs', 'Modrinth': 'https://link.mcmod.cn/target/aHR0cHM6Ly9tb2RyaW50aC5jb20vbW9kL3llcy1zdGV2ZS1tb2RlbA==', 'WIKI': 'https://link.mcmod.cn/target/aHR0cDovL3BhZ2UuY2ZwYS50ZWFtL3lzbS96aC8=', 'GitHub': 'https://link.mcmod.cn/target/aHR0cHM6Ly9naXRodWIuY29tL1RhcnRhcmljQWNpZC95c20='}",ÊÇ£¬Ê·µÙ·òÄ£ĞÍ,"ÔËĞĞ»·¾³: ¿Í»§¶Ë¿ÉÑ¡, ·şÎñ¶ËĞè×°","['¸üÕæÊµµÄµÚÒ»ÈË³ÆÄ£ĞÍ  (First-person Model)', '[TaC]  ÓÀºãÇ¹Ğµ¹¤·»  (Timeless and Classics Guns)', '°áÔË  (Carry On)', '°Îµ¶½£2  (SlashBlade 2)', 'Forge Config API Port', 'Amecs']",1.19.2
+url,mod_name,running_environment,version
+https://www.mcmod.cn/class/8616.html,æ˜¯ï¼Œå²è’‚å¤«æ¨¡å‹,"è¿è¡Œç¯å¢ƒ: å®¢æˆ·ç«¯å¯é€‰, æœåŠ¡ç«¯éœ€è£…",1.19.2
+https://www.mcmod.cn/class/5510.html,Forge Config API Port,"è¿è¡Œç¯å¢ƒ: å®¢æˆ·ç«¯éœ€è£…, æœåŠ¡ç«¯éœ€è£…",1.19.2
+https://www.mcmod.cn/class/609.html,åˆ›ä¸–ç¥,"è¿è¡Œç¯å¢ƒ: å®¢æˆ·ç«¯éœ€è£…, æœåŠ¡ç«¯éœ€è£…",1.19.2

@@ -4,23 +4,36 @@
 # Description: ...i
 import os
 import parsel
+import requests
 from tqdm import tqdm
 from utils.Crawler import Crawler
 from settings import (MOD_VERSION, MOD_API, MOD_SAVE_PATH)
 from loguru import logger
 
 
-class ModrinthDownloader(Crawler):
+class CurseForgeDownloader(Crawler):
+    api_id = {
+        "forge": "1",
+        "fabric": "4",
+        "quilt": "5"
+    }
+
     def __init__(self, *args, **kwargs):
-        super(ModrinthDownloader, self).__init__(*args, **kwargs)
+        super(CurseForgeDownloader, self).__init__(*args, **kwargs)
+        self.session = requests.session()
+        self.session.headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0"
+
+    def send(self) -> None:
+        self.response = self.session.get(self.url, stream=True)
+        self.response.encoding = "utf-8"
 
     def set_version_link(self) -> None:
-        self.url = f"{self.response.url}/versions?g={self.version}&l={self.api}"
+        self.url = f"{self.response.url}/files/all?page=1&pageSize=20&version={self.version}&gameVersionTypeId={self.api_id.get(self.api.lower())}"
         logger.info(f"download version url: {self.url}")
 
     def parse(self) -> None:
         root = parsel.Selector(self.response.text)
-        jar_url_list = root.xpath('''//div[@class="version-button button-transparent"]/a[1]/@href''').getall()
+        jar_url_list = root.xpath('''//a[class="file-card"]/@href''').getall()
         if len(jar_url_list) == 0:
             logger.warning(f"There is no download link for the {self.version} of this mod.")
             self.url = None
@@ -45,9 +58,11 @@ class ModrinthDownloader(Crawler):
         self.send()
         self.set_version_link()
         self.send()
-        self.parse()
-        if self.url is None:
-            return False
+        print(self.session.headers)
         self.send()
-        self.save_to_local()
-        return True
+        self.parse()
+        # if self.url is None:
+        #     return False
+        # self.send()
+        # self.save_to_local()
+        # return True

@@ -4,3 +4,4 @@
 # Description: ...
 from .Crawler import Crawler
 from .ModrinthDownloader import ModrinthDownloader
+from .CurseForgeDownloader import CurseForgeDownloader

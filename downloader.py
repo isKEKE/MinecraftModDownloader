@@ -6,18 +6,21 @@ import os
 import parsel
 from loguru import logger
 from items import ModuleInfor, ModuleInforList
-from utils import (Crawler, ModrinthDownloader)
+from utils import (Crawler, ModrinthDownloader, CurseForgeDownloader)
 from settings import (MOD_SAVE_PATH, MOD_API, MOD_VERSION, MOD_INFO_FILE_PATH)
 
 
 class MinecraftDownloader(Crawler):
     handler = {
+        # "CurseForge": CurseForgeDownloader,
         "Modrinth": ModrinthDownloader
     }
 
     def __init__(self, url: str, version: str = MOD_VERSION, api: str = MOD_API, to_dir: str = MOD_SAVE_PATH,
                  infor_filepath: str = MOD_INFO_FILE_PATH):
         super(MinecraftDownloader, self).__init__(url, version, api, to_dir)
+        self.flag = True
+        os.path.exists(self.to_dir) or os.makedirs(self.to_dir)
         self.information = ModuleInfor()
         self.information["url"] = url
         self.mod_infor_list = ModuleInforList(infor_filepath)
@@ -40,24 +43,25 @@ class MinecraftDownloader(Crawler):
             if source_link is None:
                 continue
             logger.info(f"Using {handler_name}")
-            handler_cls(source_link).run()
-            break
+            if handler_cls(source_link, to_dir=self.to_dir, api=self.api, version=self.version).run() == True:
+                break
+        else:
+            self.flag = False
 
     def _record_info(self) -> None:
-        ...
+        if self.flag == True:
+            self.information["version"] = MOD_VERSION
+            self.information.print()
+            self.mod_infor_list.add(self.information)
+            self.mod_infor_list.save()
+        else:
+            logger.warning("Download failed.")
 
     def run(self) -> None:
         super().run()
-        os.path.exists(self.to_dir) or os.makedirs(self.to_dir)
-
-        # self._downloading()
-        # self._record_info()
-
-        self.information["version"] = MOD_VERSION
-        self.information.print()
-        self.mod_infor_list.add(self.information)
-        self.mod_infor_list.save()
+        self._downloading()
+        self._record_info()
 
 
 if __name__ == "__main__":
-    MinecraftDownloader("https://www.mcmod.cn/class/8616.html").run()
+    MinecraftDownloader("https://www.mcmod.cn/class/609.html").run()
